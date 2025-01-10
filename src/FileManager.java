@@ -5,7 +5,7 @@ import java.io.FileWriter;
 import java.time.LocalDate;
 
 public class FileManager {
-    public static void saveToFile(FinanceTracker financeTracker, String fileName) throws Exception {
+    public static void saveToFile(FinanceTracker financeTracker, String fileName) {
         try {
             FileWriter fileWriter = new FileWriter(fileName);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
@@ -32,7 +32,7 @@ public class FileManager {
         }
     }
 
-    public static FinanceTracker loadFromFile(String fileName) throws Exception {
+    public static FinanceTracker loadFromFile(String fileName) {
         FinanceTracker financeTracker = new FinanceTracker();
         try {
             FileReader fileReader = new FileReader(fileName);

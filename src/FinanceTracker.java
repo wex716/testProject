@@ -34,60 +34,33 @@ public class FinanceTracker {
     }
 
     public List<Transaction> getTransactions() {
-        for (int i = 0; i < transactions.size(); i++) {
-            System.out.println(transactions.get(i));
-        }
         return transactions;
     }
 
-    public double getBalance() {
+    public void getBalance() {
         double income = transactions.stream().filter(item -> item.getType().equals("Доход")).mapToDouble(transaction -> transaction.getAmount()).sum();
         double expenses = transactions.stream().filter(item -> item.getType().equals("Расход")).mapToDouble(transaction -> transaction.getAmount()).sum();
 
         System.out.println("Доход:" + income);
         System.out.println("Расход:" + expenses);
-        return income - expenses;
     }
 
     public List<Transaction> getTransactionByDate(LocalDate startDate, LocalDate endDate) {
-        List<Transaction> filteredList = new ArrayList<>();
+        List<Transaction> filteredList = transactions;
         for (int i = 0; i < transactions.size(); i++) {
-            if (!transactions.get(i).getDate().isBefore(startDate) && !transactions.get(i).getDate().isAfter(endDate)) {
+            if (!transactions.get(i).getDate().isAfter(startDate) && !transactions.get(i).getDate().isBefore(endDate)) {
                 filteredList.add(transactions.get(i));
             }
         }
         return filteredList;
     }
 
-    public List<Transaction> getTransactionsByCategory(String categoryName) {
-        List<Transaction> filteredList = new ArrayList<>();
+    public void getTransactionsByCategory(String categoryName) {
+        List<Transaction> filteredList = transactions;
         for (int i = 0; i < transactions.size(); i++) {
             if (transactions.get(i).getCategory().getName().equals(categoryName)) {
                 filteredList.add(transactions.get(i));
             }
         }
-        return filteredList;
     }
-
-    public double getIncomes() {
-        return transactions.stream().filter(item -> item.getType().equals("Доход")).mapToDouble(transaction -> transaction.getAmount()).sum();
-    }
-
-    public double getExpenses() {
-        return transactions.stream().filter(item -> item.getType().equals("Расход")).mapToDouble(transaction -> transaction.getAmount()).sum();
-    }
-
-    public double getAverageIncome() {
-        double sumIncomes = 0;
-        int count = 0;
-
-        for (int i = 0; i < transactions.size(); i++) {
-            if (transactions.get(i).getCategory().getName().equals("Доход")) {
-                sumIncomes += transactions.get(i).getAmount();
-                count++;
-            }
-        }
-        return sumIncomes / count;
-    }
-
 }

@@ -3,7 +3,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         FinanceTracker financeTracker = new FinanceTracker();
         Scanner scanner = new Scanner(System.in);
 
@@ -17,7 +17,7 @@ public class Main {
         }
 
         while (true) {
-            System.out.println("1. Добавить категорию. \n2. Удалить категорию. \n3. Просмотреть все категории. \n4. Добавить транзакцию. \n5. Удалить транзакцию. \n6. Просмотреть все транзакции \n7. Вывод общего баланса. \n8. Вывод доходов и расходов за указанный период времени. \n9. Фильтрация транзакций по категории. \n10. Выход \nВыберите действие:");
+            System.out.print("1. Добавить категорию. \n2. Удалить категорию. \n3. Просмотреть все категории. \n4. Добавить транзакцию. \n5. Удалить транзакцию. \n6. Просмотреть все транзакции \n7. Вывод общего баланса. \n8. Вывод доходов и расходов за указанный период времени. \n9. Выход \n--!Выберите действие:!-- ");
 
             String choice = scanner.nextLine();
 
@@ -25,21 +25,34 @@ public class Main {
                 case "1":
                     System.out.print("Введите имя категории: ");
                     String categoryName = scanner.nextLine();
+
                     financeTracker.addCategory(categoryName);
+
+                    skipLine();
+
                     break;
                 case "2":
                     System.out.print("Введите имя категории для удаления: ");
                     String removeCategoryName = scanner.nextLine();
+
                     financeTracker.removeCategory(removeCategoryName);
+
+                    skipLine();
+
                     break;
                 case "3":
-                    System.out.println("Просмотреть все категрии: ");
+                    System.out.print("Все категории: ");
                     List<Category> categories = financeTracker.getCategories();
+
                     System.out.println(categories.toString());
+
+                    skipLine();
+
                     break;
                 case "4":
                     System.out.print("Введите тип транзакции (Доход, Расход): ");
                     String type = scanner.nextLine();
+
                     System.out.print("Введите категорию: ");
                     String transCategoryName = scanner.nextLine();
 
@@ -47,40 +60,58 @@ public class Main {
 
                     System.out.print("Введите сумму: ");
                     double amount = Double.parseDouble(scanner.nextLine());
+
                     System.out.print("Введите дату в формате ('2025-12-12'): ");
                     LocalDate date = LocalDate.parse(scanner.nextLine());
+
                     System.out.print("Введите описание: ");
                     String description = scanner.nextLine();
+
                     financeTracker.addTransaction(type, category, amount, date, description);
+
+                    skipLine();
+
                     break;
                 case "5":
-                    System.out.print("Введите имя транзаккции для удаления: ");
+                    System.out.print("Введите имя транзакции для удаления: ");
                     String removeTransactionName = scanner.nextLine();
+
                     financeTracker.removeTransaction(removeTransactionName);
+
+                    skipLine();
+
                     break;
                 case "6":
                     System.out.print("Список транзакций: ");
-                    List<Transaction> transactions = financeTracker.getTransactions();
-                    System.out.println(transactions.toString());
+                    List<Transaction> filteredTransaction = financeTracker.getTransactions();
+
+                    System.out.println(filteredTransaction.toString());
+
+                    skipLine();
+
                     break;
                 case "7":
-                    System.out.print("Общий баланс: ");
+                    System.out.println("Общий баланс: ");
                     financeTracker.getBalance();
+
+                    skipLine();
+
                     break;
                 case "8":
                     System.out.print("Введите начальную дату транзакции в формате ('2025-12-12'): ");
                     LocalDate startDate = LocalDate.parse(scanner.nextLine());
+
                     System.out.print("Введите конечную дату транзакции в формате ('2025-12-12'): ");
                     LocalDate endDate = LocalDate.parse(scanner.nextLine());
-                    List<Transaction> filteredByDate = financeTracker.getTransactionByDate(startDate, endDate);
-                    System.out.println(filteredByDate.toString());
+
+                    List<Transaction> filteredListByCategory = financeTracker.getTransactionByDate(startDate, endDate);
+
+                    System.out.println(filteredListByCategory.toString());
+
+                    skipLine();
+
                     break;
                 case "9":
-                    System.out.print("Введите имя категории: ");
-                    String filterCategoryName = scanner.nextLine();
-                    financeTracker.getTransactionsByCategory(filterCategoryName);
-                    break;
-                case "10":
                     try {
                         FileManager.saveToFile(financeTracker, fileName);
                         System.out.println("Данные успешно сохранены");
@@ -88,10 +119,16 @@ public class Main {
                         System.out.println("Ошибка сохранения данных: " + e.getMessage());
                     }
                     System.exit(0);
+
                     break;
                 default:
                     System.out.println("Такого действия нет, выберите чето другое");
             }
         }
     }
+
+    private static void skipLine(){
+        System.out.println("");
+    }
+
 }
