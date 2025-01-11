@@ -38,11 +38,6 @@ public class Transaction {
 
     @Override
     public String toString() {
-        return "Transaction{" +
-                "type='" + type + '\'' +
-                ", category=" + category +
-                ", amount=" + amount +
-                ", description='" + description + '\'' +
-                '}';
+        return "Тип транзакции: " + type + ". \nКатегория: " + category + ". \nДеньги: " + amount + ". \nОписание: " + description;
     }
 }

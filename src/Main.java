@@ -10,19 +10,22 @@ public class Main {
         String fileName = "data.txt";
 
         try {
-            financeTracker = FileManager.loadFromFile(fileName);
+            financeTracker.loadFromFile(fileName);
             System.out.println("Файл успешно загружен");
         } catch (Exception e) {
             System.out.println("Ошибка загрузки: " + e.getMessage());
         }
 
         while (true) {
+
+            System.out.println(financeTracker.getListInTableView());
+
             System.out.print("1. Добавить категорию. \n2. Удалить категорию. \n3. Просмотреть все категории. \n4. Добавить транзакцию. \n5. Удалить транзакцию. \n6. Просмотреть все транзакции \n7. Вывод общего баланса. \n8. Вывод доходов и расходов за указанный период времени. \n9. Выход \n--!Выберите действие:!-- ");
 
             String choice = scanner.nextLine();
 
             switch (choice) {
-                case "1":
+                case "1": {
                     System.out.print("Введите имя категории: ");
                     String categoryName = scanner.nextLine();
 
@@ -31,7 +34,8 @@ public class Main {
                     skipLine();
 
                     break;
-                case "2":
+                }
+                case "2": {
                     System.out.print("Введите имя категории для удаления: ");
                     String removeCategoryName = scanner.nextLine();
 
@@ -40,16 +44,16 @@ public class Main {
                     skipLine();
 
                     break;
-                case "3":
+                }
+                case "3": {
                     System.out.print("Все категории: ");
-                    List<Category> categories = financeTracker.getCategories();
-
-                    System.out.println(categories.toString());
+                    financeTracker.getCategories();
 
                     skipLine();
 
                     break;
-                case "4":
+                }
+                case "4": {
                     System.out.print("Введите тип транзакции (Доход, Расход): ");
                     String type = scanner.nextLine();
 
@@ -72,7 +76,8 @@ public class Main {
                     skipLine();
 
                     break;
-                case "5":
+                }
+                case "5": {
                     System.out.print("Введите имя транзакции для удаления: ");
                     String removeTransactionName = scanner.nextLine();
 
@@ -81,39 +86,39 @@ public class Main {
                     skipLine();
 
                     break;
-                case "6":
+                }
+                case "6": {
                     System.out.print("Список транзакций: ");
-                    List<Transaction> filteredTransaction = financeTracker.getTransactions();
-
-                    System.out.println(filteredTransaction.toString());
+                    financeTracker.getTransactions();
 
                     skipLine();
 
                     break;
-                case "7":
+                }
+                case "7": {
                     System.out.println("Общий баланс: ");
                     financeTracker.getBalance();
 
                     skipLine();
 
                     break;
-                case "8":
+                }
+                case "8": {
                     System.out.print("Введите начальную дату транзакции в формате ('2025-12-12'): ");
                     LocalDate startDate = LocalDate.parse(scanner.nextLine());
 
                     System.out.print("Введите конечную дату транзакции в формате ('2025-12-12'): ");
                     LocalDate endDate = LocalDate.parse(scanner.nextLine());
 
-                    List<Transaction> filteredListByCategory = financeTracker.getTransactionByDate(startDate, endDate);
-
-                    System.out.println(filteredListByCategory.toString());
+                    financeTracker.getTransactionByDate(startDate, endDate);
 
                     skipLine();
 
                     break;
-                case "9":
+                }
+                case "9": {
                     try {
-                        FileManager.saveToFile(financeTracker, fileName);
+                        financeTracker.saveToFile(fileName);
                         System.out.println("Данные успешно сохранены");
                     } catch (Exception e) {
                         System.out.println("Ошибка сохранения данных: " + e.getMessage());
@@ -121,13 +126,14 @@ public class Main {
                     System.exit(0);
 
                     break;
+                }
                 default:
                     System.out.println("Такого действия нет, выберите чето другое");
             }
         }
     }
 
-    private static void skipLine(){
+    private static void skipLine() {
         System.out.println("");
     }
 
